@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5f5470f8cdc60f5418cb8c92abca7384
+timeCreated: 1564917827
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - targets: {instanceID: 0}
+  - circle: {fileID: 21300000, guid: daed5be57aa46194d8020d193aede4e7, type: 3}
+  - outerCircle: {fileID: 21300000, guid: 5b3fa4994122c6c4e9916f2542f00277, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

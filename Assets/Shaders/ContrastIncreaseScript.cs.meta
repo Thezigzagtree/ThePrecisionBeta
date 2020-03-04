@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 3e22ec6a9821b234597eb394da27f992
+timeCreated: 1557736013
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - screenEffect: {fileID: 2100000, guid: 3a1cce3658d9f364887edc7ee23e46f3, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

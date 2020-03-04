@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: 5afd9134947256b4fa9e62aa0c8c1d40
+timeCreated: 1548759301
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - Damageburst: {fileID: 1802182517738696, guid: dcb2e5ad83379bd44869168e04039f5e,
+      type: 2}
+  - Stagedecorator: {instanceID: 0}
+  - StageManipulator: {instanceID: 0}
+  - StageTargets: {instanceID: 0}
+  - FullHPBar: {instanceID: 0}
+  - misslight: {instanceID: 0}
+  - healthbar: {instanceID: 0}
+  - scoretext: {instanceID: 0}
+  - timertext: {instanceID: 0}
+  - outcometext: {instanceID: 0}
+  - replaybutton: {instanceID: 0}
+  - exitbutton: {instanceID: 0}
+  - nextbutton: {instanceID: 0}
+  - fader: {instanceID: 0}
+  - anim: {instanceID: 0}
+  - Blackbox: {instanceID: 0}
+  executionOrder: 300
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

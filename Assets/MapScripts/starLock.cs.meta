@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: dc536079cbf942a44b2570537fa09ded
+timeCreated: 1558426441
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - lockedStar: {fileID: 21300000, guid: 969d9c059954d0e48bf38b2550ebed2e, type: 3}
+  executionOrder: 400
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
