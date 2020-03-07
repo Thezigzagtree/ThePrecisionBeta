@@ -112,13 +112,14 @@ public class itemBank : MonoBehaviour {
 				if (shape == "Arkus") 
 				{
 					if (FindObjectOfType<sceneryManager> ().checkSceneryUnlocked ())
-						FindObjectOfType<playerObj> ().agentShapes [shape] = 1;
+						//FindObjectOfType<playerObj> ().agentShapes [shape] = 1;
+						SaveSystem.SetInt(shape, 1);
 					//MainManager checks if scenery is all unlocked
 				}
 
 				else if (shape == "Spire") {
 					if (FindObjectOfType<WorldMapManager> ().starCount >= 500)
-						FindObjectOfType<playerObj> ().agentShapes [shape] = 1;
+						SaveSystem.SetInt(shape, 1);
 					//check Star rank
 				}
 
@@ -130,20 +131,20 @@ public class itemBank : MonoBehaviour {
 							x += 1;
 					}
 					if (x >= 100)
-						FindObjectOfType<playerObj> ().agentShapes [shape] = 1;
+						SaveSystem.SetInt(shape, 1);
 					
 					//check star ranking with 3
 				}
 
 				else if (shape == "Battery") {
-					if (SaveSystem.GetInt("Stage_0120A") > 0 && 
-					SaveSystem.GetInt("Stage_0121A") > 0 && 
-					SaveSystem.GetInt("Stage_0122A") > 0 && 
-					SaveSystem.GetInt("Stage_0123A") > 0 &&
-					SaveSystem.GetInt("Stage_0124A") > 0 &&
-					SaveSystem.GetInt("Stage_0125A") > 0)
+					if (FindObjectOfType<playerObj>().getStageRank("Stage_0120A") > 0 && 
+					FindObjectOfType<playerObj>().getStageRank("Stage_0121A") > 0 && 
+					FindObjectOfType<playerObj>().getStageRank("Stage_0122A") > 0 && 
+					FindObjectOfType<playerObj>().getStageRank("Stage_0123A") > 0 &&
+					FindObjectOfType<playerObj>().getStageRank("Stage_0124A") > 0 &&
+					FindObjectOfType<playerObj>().getStageRank("Stage_0125A") > 0)
 					{
-						FindObjectOfType<playerObj>().agentShapes [shape] = 1;
+						SaveSystem.SetInt(shape, 1);
 					}
 				}
 			}

@@ -48,8 +48,7 @@ public class FirebaseObject : MonoBehaviour
         user = auth.CurrentUser;
 		if (user != null)
         {
-            FindObjectOfType<RegistrationScript>().loggedInUser.text = auth.CurrentUser.Email;
-            //FindObjectOfType<MainscreenManager>().userLoggedIn();
+            FindObjectOfType<MainscreenManager>().userLoggedIn();
             getPlayerInfo();
 
         }
@@ -91,19 +90,21 @@ public class FirebaseObject : MonoBehaviour
         
         user = auth.CurrentUser;
         FindObjectOfType<RegistrationScript>().loggedInUser.text = auth.CurrentUser.Email;
-        //FindObjectOfType<playerObj>().setupNewUser();
+        FindObjectOfType<playerObj>().setupNewUser();
         InitsaveGame();
-    //    FindObjectOfType<MainscreenManager>().userLoggedIn(); 
-        // if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandRegForm"))
-        // FindObjectOfType<MainscreenManager>().shrinkRegForm();
-        // if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandLoginForm"))
-        //     FindObjectOfType<MainscreenManager>().shrinkLoginForm();
+        FindObjectOfType<MainscreenManager>().userLoggedIn();
+        if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandRegForm"))
+        FindObjectOfType<MainscreenManager>().shrinkRegForm();
+        if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandLoginForm"))
+            FindObjectOfType<MainscreenManager>().shrinkLoginForm();
         }
 
 }
 
     private IEnumerator LoginUser(string email, string password)
 {
+    Debug.Log(email);
+    Debug.Log(password);
    var signTask = auth.SignInWithEmailAndPasswordAsync(email, password);
    yield return new WaitUntil(() => signTask.IsCompleted);
 
@@ -117,12 +118,8 @@ public class FirebaseObject : MonoBehaviour
             
     user = auth.CurrentUser;
     FindObjectOfType<RegistrationScript>().loggedInUser.text = auth.CurrentUser.Email;
-    //FindObjectOfType<MainscreenManager>().userLoggedIn(); 
+    FindObjectOfType<MainscreenManager>().userLoggedIn(); 
     getPlayerInfo();
-    // if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandRegForm"))
-    //     FindObjectOfType<MainscreenManager>().shrinkRegForm();
-    // if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandLoginForm"))
-    //     FindObjectOfType<MainscreenManager>().shrinkLoginForm();
         
     
     }
@@ -180,13 +177,15 @@ public class FirebaseObject : MonoBehaviour
                  string shape = task.Result.Child("currentAgentShape").Value.ToString();
                  SaveSystem.SetString("currentAgentShape", shape);
                  Debug.Log("Shape is  " + SaveSystem.GetString("currentAgentShape"));
-                //  SaveSystem.obtainStageToRank(task.Result.Child("stages").GetRawJsonValue());
-                //  SaveSystem.obtainItems(task.Result.Child("Items").GetRawJsonValue());
-                // if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandRegForm"))
-                // FindObjectOfType<MainscreenManager>().shrinkRegForm();
-                // if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandLoginForm"))
-                //     FindObjectOfType<MainscreenManager>().shrinkLoginForm();
-            
+                 SaveSystem.obtainStageToRank(task.Result.Child("stages").GetRawJsonValue());
+                 SaveSystem.obtainItems(task.Result.Child("Items").GetRawJsonValue());
+//                 SaveSystem.SetColors(task.Result.Child("AgentColor").Child("Aura").Child("Red").Value.ToString(), task.Result.Child("AgentColor").Child("Aura").Child("Green").Value.ToString(), task.Result.Child("AgentColor").Child("Aura").Child("Blue").Value.ToString());
+                 //playerObj.SetupAgentPCol(task.Result.Child("AuraColors").Child("Red").Value, task.Result.Child("AuraColors").Child("Green").Value, task.Result.Child("AuraColors").Child("Blue").Value);
+                 //playerObj.SetupAgentSCol(task.Result.Child("AuraColors").Child("Red").Value, task.Result.Child("AuraColors").Child("Green").Value, task.Result.Child("AuraColors").Child("Blue").Value);
+                if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandRegForm"))
+                FindObjectOfType<MainscreenManager>().shrinkRegForm();
+                if(FindObjectOfType<MainscreenManager>().regFormAnimator.GetBool("ExpandLoginForm"))
+                    FindObjectOfType<MainscreenManager>().shrinkLoginForm();
                  //Debug.Log();
 
                  
@@ -235,7 +234,29 @@ public class FirebaseObject : MonoBehaviour
         saveCredits();
         saveSilverCredits();
         saveAgentShape();       
-      
+
+    }
+
+    public void logOut()
+
+    {
+        auth.SignOut();
+    }
+
+    public void saveAgentColors(Color primaryColor, Color secondaryColor, Color auraColor)
+    {
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Primary").Child("Red").SetValueAsync(primaryColor.r);
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Primary").Child("Green").SetValueAsync(primaryColor.g);
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Primary").Child("Blue").SetValueAsync(primaryColor.b);
+
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Secondary").Child("Red").SetValueAsync(secondaryColor.r);
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Secondary").Child("Green").SetValueAsync(secondaryColor.g);
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Secondary").Child("Blue").SetValueAsync(secondaryColor.b);
+
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Aura").Child("Red").SetValueAsync(auraColor.r);
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Aura").Child("Green").SetValueAsync(auraColor.g);
+        database.RootReference.Child("users").Child(user.UserId).Child("AgentColor").Child("Aura").Child("Blue").SetValueAsync(auraColor.b);
+        
     }
 
   

@@ -79,13 +79,13 @@ public class storeManager : MonoBehaviour {
 
 		for (int i = 0; i < GameObject.FindGameObjectWithTag ("powerUpContent").transform.childCount; i++) {
 			if (FindObjectOfType<playerObj>().hasItem(GameObject.FindGameObjectWithTag ("powerUpContent").transform.GetChild (i).name))
-				FindObjectOfType<playerObj>().inventoryItems[GameObject.FindGameObjectWithTag ("powerUpContent").transform.GetChild (i).name] = 0;
+				SaveSystem.inventoryItems[GameObject.FindGameObjectWithTag ("powerUpContent").transform.GetChild (i).name] = 0;
 				//	PlayerPrefs.SetInt (GameObject.FindGameObjectWithTag ("powerUpContent").transform.GetChild (i).name, 0);	
 		}
 
 		for (int i = 0; i < GameObject.FindGameObjectWithTag ("inGamePowerUpContent").transform.childCount; i++) {
 			if (!FindObjectOfType<playerObj> ().hasItem (GameObject.FindGameObjectWithTag ("inGamePowerUpContent").transform.GetChild (i).name))
-				FindObjectOfType<playerObj> ().inventoryItems [GameObject.FindGameObjectWithTag ("inGamePowerUpContent").transform.GetChild (i).name] = 0;
+				SaveSystem.inventoryItems [GameObject.FindGameObjectWithTag ("inGamePowerUpContent").transform.GetChild (i).name] = 0;
 		}
 	}
 

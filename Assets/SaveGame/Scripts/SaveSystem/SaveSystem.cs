@@ -1,12 +1,79 @@
 using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Collections.Generic;
 
 public static class SaveSystem {
 	
 	private static string file;
 	private static bool loaded;
 	private static DataState data;
+
+	public static Dictionary<string, int> stageToRank = new Dictionary <string, int>();
+	public static Dictionary<string, int> inventoryItems = new Dictionary <string, int>();
+	
+	public static void obtainStageToRank (string data)
+	{
+		stageToRank.Clear();
+//		Debug.Log(data);
+
+		data = data.Replace("{", "");
+		data = data.Replace("}", "");
+		data = data.Replace(",", "");
+		data = data.Replace("\"", "");
+
+//		Debug.Log(data);
+
+		int count = data.Split(':').Length -1;
+
+		for (int i = 0; i < count; i++)
+		{
+			int index = data.IndexOf(":");
+			string tempStage = data.Substring(0, index);
+			int score = int.Parse(data[index+1].ToString());
+			// Debug.Log(tempStage);
+			// //Debug.Log(index);
+			// Debug.Log(score);
+
+			stageToRank.Add(tempStage, score );
+
+			data = data.Replace(tempStage+":"+score.ToString(), "");
+		}
+
+	}
+
+	public static void obtainItems (string data)
+	{
+		inventoryItems.Clear();
+	//	Debug.Log(data);
+
+		data = data.Replace("{", "");
+		data = data.Replace("}", "");
+		data = data.Replace(",", "");
+		data = data.Replace("\"", "");
+
+	//	Debug.Log(data);
+
+
+		int count = data.Split(':').Length -1;
+
+		for (int i = 0; i < count; i++)
+		{
+			int index = data.IndexOf(":");
+			string item = data.Substring(0, index);
+			int item_count = int.Parse(data[index+1].ToString());
+	//		Debug.Log(item);
+			//Debug.Log(index);
+	//		Debug.Log(item_count);
+
+			inventoryItems.Add(item, item_count );
+
+			data = data.Replace(item+":"+item_count.ToString(), "");
+		}
+
+
+
+	}
 
 	public static void Initialize(string fileName) // initialization (used once, after the application starts)
     {

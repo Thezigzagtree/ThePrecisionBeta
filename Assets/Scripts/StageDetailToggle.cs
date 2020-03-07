@@ -14,6 +14,7 @@ public class StageDetailToggle : MonoBehaviour {
 		private bool detailRemoving = false;
 		public Text appliedItemText;
 		public Button removeItemButton;
+		public Button Startbutton;
 		
 	void Awake () {
 		
@@ -145,9 +146,22 @@ public class StageDetailToggle : MonoBehaviour {
 	}
 	void showStageDetail (Node targetNode) {
 
+		if(targetNode.GetComponent<starLock>())
+		{
+			Startbutton.interactable = false;
+			Startbutton.GetComponentInChildren<Text>().text = "Star Locked";
+		}
+			
+		else
+		{
+			Startbutton.interactable = true;
+			Startbutton.GetComponentInChildren<Text>().text = "Start";
+		
+		}
+			
 		//Debug.Log (agent.agentType);
 		showRank();
-		if (FindObjectOfType<playerObj>().playerHasStage(targetNode.name) || SaveSystem.GetInt("credits")-300 < 0 ) {
+		if (FindObjectOfType<playerObj>().playerHasStage(targetNode.name) || SaveSystem.GetInt("credits")-300 < 0 || targetNode.GetComponent<starLock>()) {
 			GameObject.FindGameObjectWithTag ("skipButton").GetComponent<Button> ().interactable = false;
 			GameObject.FindGameObjectWithTag ("skipButton").GetComponentInChildren<Text> ().enabled = false;
 		} else {

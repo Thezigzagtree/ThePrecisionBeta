@@ -9,45 +9,35 @@ public class playerObj : MonoBehaviour {
 	public int silverCredits = 0;
 	public int location = 0;
 	public string currentAgentShape;
+	public Dictionary <string, int> agentShapes = new Dictionary<string, int>();
+	public Material agentMat1;
+	public Material agentMat2;
 	//KEEP TRACK OF RANK AND STAGE
-	public Dictionary <string, int> stageToRank = new Dictionary<string, int>();
-	public Dictionary <string, int> agentShapes = new Dictionary<string, int> ();
-	public Dictionary <string, int> inventoryItems = new Dictionary<string, int> ();
-
+	
 
 	public void addItem(string item)
 	{
 
-		SaveSystem.SetInt(item, SaveSystem.GetInt(item)+1);
-		saveGame ();
-		//if (inventoryItems.ContainsKey (item))
+		if (SaveSystem.inventoryItems.ContainsKey (item))
 			
-		//	inventoryItems [item] += 1;
-		//else
-		//	inventoryItems.Add (item, 1);
+			SaveSystem.inventoryItems [item] += 1;
+		else
+			SaveSystem.inventoryItems.Add (item, 1);
 
-
-		//saveGame ();
+		FindObjectOfType<FirebaseObject>().saveItems(item, SaveSystem.inventoryItems [item]);
 		
 	}
 
 	public void useItem(string item)
 	{
-		SaveSystem.SetInt(item, SaveSystem.GetInt(item)-1);
-
 		
-	//	inventoryItems [item] -= 1;
-//		if(SaveSystem.GetInt(item) == 0)
-//			SaveSystem.Remove(item);
-	//	if (inventoryItems [item] == 0)
-	//		inventoryItems.Remove (item);
-		saveGame ();
+		SaveSystem.inventoryItems [item] -= 1;
+		FindObjectOfType<FirebaseObject>().saveItems(item, SaveSystem.inventoryItems [item]);
 	}
 		
 	public bool hasItem(string item)
 	{
-		if(SaveSystem.HasKey(item))
-		//if (inventoryItems.ContainsKey (item))
+		if (SaveSystem.inventoryItems.ContainsKey (item))
 			return true;
 		else
 			return false;
@@ -57,9 +47,9 @@ public class playerObj : MonoBehaviour {
 	public int getItemCount(string item)
 	{
 		
-		if(SaveSystem.HasKey(item))
-		{	if (SaveSystem.GetInt(item)> 0)
-				return SaveSystem.GetInt(item);
+		if(SaveSystem.inventoryItems.ContainsKey(item))
+		{	if (SaveSystem.inventoryItems[item]> 0)
+				return SaveSystem.inventoryItems[item];
 			else {
 				//SaveSystem.Remove(item);
 				return 0;
@@ -81,7 +71,7 @@ public class playerObj : MonoBehaviour {
 				SaveSystem.SetInt(Resources.LoadAll ("AgentShapes") [i].name, 0);
 		}
 
-		SaveSystem.SetInt("Tutorial", 0);
+		//SaveSystem.SetInt("Tutorial", 0);
 			
 	}
 
@@ -89,26 +79,26 @@ public class playerObj : MonoBehaviour {
 	{
 		SaveSystem.SetInt(stagename, rank);
 		
-		//if (stageToRank.ContainsKey (stagename))
-			//stageToRank [stagename] = rank;
+		if (SaveSystem.stageToRank.ContainsKey (stagename))
+			SaveSystem.stageToRank [stagename] = rank;
 			
-		//else
-		//	stageToRank.Add (stagename, rank);
+		else
+			SaveSystem.stageToRank.Add (stagename, rank);
 		
-		saveGame ();
+		FindObjectOfType<FirebaseObject>().saveStageToRank (stagename, rank);
 	}
 
 	public int getStageRank(string stagename)
 	{
-		if (SaveSystem.HasKey(stagename))
-			return SaveSystem.GetInt(stagename);//stageToRank[stagename];
+		if (SaveSystem.stageToRank.ContainsKey(stagename))
+			return SaveSystem.stageToRank[stagename];//stageToRank[stagename];
 		else
 			return -1;
 	}
 
 	public bool playerHasStage(string stagename)
 	{
-		if (SaveSystem.HasKey(stagename))
+		if (SaveSystem.stageToRank.ContainsKey(stagename))
 			return true;
 		else
 			return false;
@@ -118,7 +108,6 @@ public class playerObj : MonoBehaviour {
 	{
 		//location = pos;
 		SaveSystem.SetInt("position", pos);
-		saveGame ();
 	}
 
 	public int getLocation()
@@ -126,38 +115,39 @@ public class playerObj : MonoBehaviour {
 		return location;
 	}
 
+
 	public void addCredits(int gain)
 	{
 		//credits += gain;
 		SaveSystem.SetInt("credits", SaveSystem.GetInt("credits")+gain);
-		saveGame ();
+		FindObjectOfType<FirebaseObject>().saveCredits();
 	}
 
 	public void spendCredits(int cost)
 	{
-		//credits -= cost;
+		
 		SaveSystem.SetInt("credits", SaveSystem.GetInt("credits")-cost);
-		saveGame ();
+		FindObjectOfType<FirebaseObject>().saveCredits();
 	}
 
 	public void spendsilverCredits (int cost)
 	{
-//		silverCredits -= cost;
+		
 		SaveSystem.SetInt("silverCredits", SaveSystem.GetInt("silverCredits")-cost);
-		saveGame ();
+		FindObjectOfType<FirebaseObject>().saveSilverCredits();
 	}
 
 	public void addSilverCredits(int gain)
 	{
 		//silverCredits += gain;
 		SaveSystem.SetInt("silverCredits", SaveSystem.GetInt("silverCredits")+gain);
-		saveGame ();
+		FindObjectOfType<FirebaseObject>().saveSilverCredits();
 	}
 
 	public void saveGame()
 	{
 		//saveSystem.SaveGame (this);
-		SaveSystem.SaveToDisk();
+		
 	}
 
 	public void loadGame()
@@ -165,36 +155,44 @@ public class playerObj : MonoBehaviour {
 			credits = SaveSystem.GetInt("credits");
 			silverCredits = SaveSystem.GetInt("silverCredits");
 			location = SaveSystem.GetInt("position");
-			//stageToRank = data.stageToRank;
-			if(!SaveSystem.HasKey("currentAgentShape"))
-			{
-				setupAgentShapes ();
-				SaveSystem.SetString("currentAgentShape", "Rings");
-			
-			}
-
 			currentAgentShape = SaveSystem.GetString("currentAgentShape");
-			//agentShapes = data.agentShapes;
-			//inventoryItems = data.inventoryItems;
-			
-			
+				// SaveSystem.SetString("currentAgentShape", "Rings");
 			
 	}
+		//agentShapes = data.agentShapes;
+			//inventoryItems = data.inventoryItems;
+			
 
 		//KEEP TRACK OF RANK AND STAGE
 		//public Dictionary <string, int> stageToRank = new Dictionary<string, int>();
 
-	
-
-
 	public void setShape(string shape)
 	{
 		SaveSystem.SetString("currentAgentShape", shape);
-		saveGame();
+		FindObjectOfType<FirebaseObject>().saveAgentShape();
 	}
+
+	
+	public void setupNewUser()
+	{
+		SaveSystem.SetInt("credits", 0);
+		SaveSystem.SetInt("silverCredits", 0);
+		SaveSystem.SetString("currentAgentShape", "Ring");
+		uploadStage("Tutorial", 0);
+	}
+
+	public void SetupAgentAura(string r, string g, string b)
+	{
+		Debug.Log(int.Parse(r));
+		Debug.Log(int.Parse(g));
+		Debug.Log(int.Parse(b));
+	}
+
 	void Awake()
 	{
 		Application.targetFrameRate = 60;
-		loadGame ();
+		setupAgentShapes();
+
+		//loadGame ();
 	}
 }

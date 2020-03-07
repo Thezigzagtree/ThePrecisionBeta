@@ -39,7 +39,7 @@ public Agent agent;
 
 	void Awake()
 	{
-		//FindObjectOfType<playerObj> ().loadGame ();	
+		FindObjectOfType<playerObj> ().loadGame ();	
 		PlayerPrefs.SetInt ("revive", 0);
 		PlayerPrefs.SetInt ("reviveScore", 0);
 		Maincam.transform.position = new Vector3 (-7.5f, 30, -17.5f);
@@ -140,18 +140,18 @@ public Agent agent;
 		GameObject starRank = Instantiate (Resources.Load ("Other/WorldMapRank")) as GameObject;
 		starRank.transform.position = new Vector3 (MapNodes.transform.GetChild (i).transform.localPosition.x, MapNodes.transform.GetChild (i).transform.localPosition.y+2, MapNodes.transform.GetChild (i).transform.localPosition.z);
 		starRank.transform.SetParent (MapNodes.transform.GetChild(i).transform);
-		if (SaveSystem.GetInt(MapNodes.transform.GetChild (i).name) == 3) {
+		if (SaveSystem.stageToRank[MapNodes.transform.GetChild (i).name] == 3) {
 			starCount += 3;
 		}
-		if (SaveSystem.GetInt(MapNodes.transform.GetChild (i).name) == 2) {
+		if (SaveSystem.stageToRank[MapNodes.transform.GetChild (i).name] == 2) {
 			starRank.transform.GetChild (2).GetComponent<SpriteRenderer> ().color = new Color(0.2f, 0.2f, 0.2f, 1);
 			starCount += 2;
-		} else if (SaveSystem.GetInt(MapNodes.transform.GetChild (i).name) == 1) {
+		} else if (SaveSystem.stageToRank[MapNodes.transform.GetChild (i).name] == 1) {
 			starRank.transform.GetChild (0).GetComponent<SpriteRenderer> ().color = new Color(0.2f, 0.2f, 0.2f, 1);
 			starRank.transform.GetChild (2).GetComponent<SpriteRenderer> ().color = new Color(0.2f, 0.2f, 0.2f, 1);
 			starCount += 1;
 		}
-		else if (SaveSystem.GetInt(MapNodes.transform.GetChild (i).name) == 0)
+		else if (SaveSystem.stageToRank[MapNodes.transform.GetChild (i).name] == 0)
 		{
 			GameObject.Destroy(starRank);
 		}
@@ -164,7 +164,7 @@ public Agent agent;
 		for (int i = 0; i < MapNodes.transform.childCount; i++) {
 			//Debug.Log (MapNodes.transform.GetChild (i).name);
 			//if (FindObjectOfType<playerObj>().stageToRank.ContainsKey(MapNodes.transform.GetChild (i).name)) 
-			if(SaveSystem.HasKey(MapNodes.transform.GetChild(i).name))
+			if(SaveSystem.stageToRank.ContainsKey(MapNodes.transform.GetChild(i).name))
 			{
 				setUpStarRank (i);
 				for (int j = 0; j < MapNodes.transform.GetChild (i).GetComponent<Node> ().GetAllPaths ().Length; j++) {
@@ -217,7 +217,7 @@ public Agent agent;
 				if (child.tag == "Target") 
 				{
 					meshRend = child.GetComponent<SpriteRenderer> ();
-					if (MapNodes.transform.GetChild (i).GetComponent<Node> ().pathEndPoint ()) 
+					if (MapNodes.transform.GetChild (i).GetComponent<Node> ().pathEndPoint () || (SaveSystem.stageToRank.ContainsKey(MapNodes.transform.GetChild (i).name) && SaveSystem.stageToRank[MapNodes.transform.GetChild (i).name] == 0 ) )
 					{
 //						Debug.Log (MapNodes.transform.GetChild(i).name);
 						particleAtEndPoint (MapNodes.transform.GetChild(i).gameObject);
@@ -226,7 +226,7 @@ public Agent agent;
 					else 
 					{
 						
-						if(!SaveSystem.HasKey(MapNodes.transform.GetChild(i).name))
+						if(!SaveSystem.stageToRank.ContainsKey(MapNodes.transform.GetChild(i).name))
 						//if (!FindObjectOfType<playerObj>().stageToRank.ContainsKey(MapNodes.transform.GetChild (i).name)) 
 						{
 							//PUT IT HERE
@@ -253,11 +253,11 @@ public Agent agent;
 				if (starCount < node.GetComponent<starLock>().Lock) 	
 				{
 					node.GetComponent<starLock>().showLock ();
-					for (int j = 0; j < node.GetComponent<Node> ().GetAllPaths ().Length; j++) 
-					{
-						node.GetComponent<Node> ().GetAllPaths () [j].pathDirection = MovementType.Impassable;
-						node.GetComponent<Node> ().GetAllPaths () [j].GetComponent<LineRenderer> ().sharedMaterial = FindObjectOfType<WorldMapManager>().BlockedMat;
-					}
+					// for (int j = 0; j < node.GetComponent<Node> ().GetAllPaths ().Length; j++) 
+					// {
+					// 	node.GetComponent<Node> ().GetAllPaths () [j].pathDirection = MovementType.Impassable;
+					// 	node.GetComponent<Node> ().GetAllPaths () [j].GetComponent<LineRenderer> ().sharedMaterial = FindObjectOfType<WorldMapManager>().BlockedMat;
+					// }
 
 				}
 				else
@@ -450,7 +450,17 @@ public Agent agent;
 
 	public void Start_buttonfunction()
 	{
+
+		
 		StartCoroutine (FadeToNextStage ());
+	}
+
+	public void logOut()
+	{
+		FindObjectOfType<FirebaseObject>().logOut();
+		curStage = "MainScreen";
+		StartCoroutine(FadeToNextStage());
+		
 	}
 		
 }

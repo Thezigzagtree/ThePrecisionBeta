@@ -10,6 +10,7 @@ public class MainscreenManager : MonoBehaviour {
 
 	public Image Blackbox;
 	public Animator anim;
+	public Animator regFormAnimator;
 
 	public Material mainScreenTargetMat;
 	private ColorBlock tempcolor;
@@ -22,6 +23,33 @@ public class MainscreenManager : MonoBehaviour {
 	//MOVE STAGEBUTTONS WITH TOUCH
 
 	//OPTIONS BUTTONS
+
+
+	public void userLoggedIn()
+	{
+		regFormAnimator.SetBool("LogIn", true);
+	}
+
+	public void shrinkRegForm()
+	{
+		regFormAnimator.SetBool("ExpandRegForm", false);
+	}
+
+	public void shrinkLoginForm()
+	{
+		regFormAnimator.SetBool("ExpandLoginForm", false);
+	}
+
+	public void expandRegForm()
+	{
+		regFormAnimator.SetBool("ExpandRegForm", true);
+	}
+
+	public void expandLoginForm()
+	{
+		regFormAnimator.SetBool("ExpandLoginForm", true);
+	}
+
 
 
 	IEnumerator FadeToQuit()
@@ -59,7 +87,7 @@ public class MainscreenManager : MonoBehaviour {
 		
 	void Awake()
 	{
-		
+		SaveSystem.SetInt("position", 0);
 		if (!PlayerPrefs.HasKey ("MusicOn"))
 			PlayerPrefs.SetInt ("MusicOn", 1);
 		if (!PlayerPrefs.HasKey ("HapticOn"))
@@ -77,8 +105,17 @@ public class MainscreenManager : MonoBehaviour {
 		if (!PlayerPrefs.HasKey ("blueLight"))
 			PlayerPrefs.SetFloat ("blueLight", Random.Range (0, 1f));
 		
-		DontDestroyOnLoad (permaObject);
-		DontDestroyOnLoad (Soundmanager);
+
+		if(GameObject.FindGameObjectsWithTag("permaObject").Length == 1)
+			DontDestroyOnLoad (permaObject);
+		else
+			permaObject.SetActive(false);
+			//GameObject.Destroy(permaObject);
+
+		if(GameObject.FindGameObjectsWithTag("SoundManager").Length == 1)
+			DontDestroyOnLoad (Soundmanager);
+		else
+			Soundmanager.gameObject.SetActive(false);
 
 
 	}

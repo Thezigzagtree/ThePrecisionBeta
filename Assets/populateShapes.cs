@@ -18,6 +18,7 @@ public class populateShapes : MonoBehaviour {
 
 			if (SaveSystem.GetInt(Resources.LoadAll("AgentShapes") [i].name) < 1)
 			{
+				Debug.Log(SaveSystem.GetInt(Resources.LoadAll("AgentShapes") [i].name));
 				button.GetComponent<GarageShapeChanging> ().setLocked ();
 				button.GetComponent<Image> ().color = Color.black;
 			}

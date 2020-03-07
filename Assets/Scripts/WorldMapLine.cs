@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
 public class WorldMapLine : MonoBehaviour {
 
@@ -13,7 +12,7 @@ public class WorldMapLine : MonoBehaviour {
 	void Start()
 	{
 		for (int i = 0; i < endPoints.Count; i++) {
-			if (SaveSystem.GetInt(endPoints[i].name) > 0)
+			if (SaveSystem.stageToRank.ContainsKey(endPoints[i].name) &&  SaveSystem.stageToRank[endPoints[i].name] > 0)
 			//if (FindObjectOfType<playerObj>().stageToRank.ContainsKey(endPoints[i].name) && FindObjectOfType<playerObj>().stageToRank[endPoints[i].name] > 0) 
 			{
 				

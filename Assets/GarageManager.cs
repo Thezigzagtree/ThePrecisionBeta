@@ -32,7 +32,6 @@ public class GarageManager : MonoBehaviour {
 	public Material agentMat1;
 	public Material agentMat2;
 	public Animator anim;
-	private bool buttonsReturned = true;
 	public Button changeShapeButton;
 	public Button auraButton;
 	public Button accentButton;
@@ -65,6 +64,7 @@ public class GarageManager : MonoBehaviour {
 
 	public void saveAura()
 	{
+		
 		PlayerPrefs.SetFloat ("redLight", redSlider3.value/255);
 		PlayerPrefs.SetFloat ("greenLight", greenSlider3.value/255);
 		PlayerPrefs.SetFloat ("blueLight", blueSlider3.value/255);
@@ -217,7 +217,7 @@ public class GarageManager : MonoBehaviour {
 
 	IEnumerator FadeToMap()
 	{
-		
+		FindObjectOfType<FirebaseObject>().saveAgentColors(agentMat1.color, agentMat2.color, new Color(PlayerPrefs.GetFloat ("redLight"), PlayerPrefs.GetFloat ("greenLight"), PlayerPrefs.GetFloat ("blueLight")));
 		anim.SetBool ("Fade", true);
 		yield return new WaitUntil (() => SceneFader.color.a == 1);
 		SceneManager.LoadScene ("WorldMap");

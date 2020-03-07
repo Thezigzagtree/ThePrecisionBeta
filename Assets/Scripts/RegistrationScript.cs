@@ -11,12 +11,12 @@ public class RegistrationScript : MonoBehaviour
     public Text loggedInUser;
     public Text invalidEmailText;
     public Text invalidPWDText;
-    public Text emailField;
-    public Text passwordField;
-    public Text verifyField;
+    public InputField emailField;
+    public InputField passwordField;
+    public InputField verifyField;
 
-    public Text Login_emailField;
-    public Text Login_passwordField;
+    public InputField Login_emailField;
+    public InputField Login_passwordField;
 
     private string email;
     private string password;
@@ -42,13 +42,13 @@ public class RegistrationScript : MonoBehaviour
         if (validateEmail(email))
         {
             invalidEmailText.GetComponentInChildren<Image>().enabled = true;
-            invalidEmailText.GetComponentInChildren<Text>().enabled = false;
+            invalidEmailText.GetComponent<Text>().enabled = false;
         }
 
         else
         {
             invalidEmailText.GetComponentInChildren<Image>().enabled = false;
-            invalidEmailText.GetComponentInChildren<Text>().enabled = true;
+            invalidEmailText.GetComponent<Text>().enabled = true;
         }
     }
     
@@ -66,13 +66,13 @@ public bool validatePWD(string pw1, string pw2)
         if(pw1 != pw2)
     {
         invalidPWDText.GetComponentInChildren<Image>().enabled = false;
-        invalidPWDText.GetComponentInChildren<Text>().enabled = true;
+        invalidPWDText.GetComponent<Text>().enabled = true;
         return false;
     }
     else
     {
         invalidPWDText.GetComponentInChildren<Image>().enabled = true;
-        invalidPWDText.GetComponentInChildren<Text>().enabled = false;
+        invalidPWDText.GetComponent<Text>().enabled = false;
         return true;
     }
 

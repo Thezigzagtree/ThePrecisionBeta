@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "302773868280",
+    "firebase_url": "https://thumber-3497786.firebaseio.com",
+    "project_id": "thumber-3497786",
+    "storage_bucket": "thumber-3497786.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302773868280:android:67a20a61fcf4a45c6d0d0d",
+        "android_client_info": {
+          "package_name": "com.TheZigZagTree.Thumber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302773868280-j549c48fab46ql1l02tuj014jsf4f20e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrnw-feAGwa-JJfZixwZ_wmZZGR_ymiqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302773868280-j549c48fab46ql1l02tuj014jsf4f20e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "302773868280-pk6mgc9ql7bs45l3j9ovc9n5ngsc70ha.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.TheZigZagTree.Thumber"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

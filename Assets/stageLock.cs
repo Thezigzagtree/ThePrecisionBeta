@@ -21,7 +21,7 @@ public class stageLock : MonoBehaviour {
 		
 		for (int i = 0; i < reqs.Count; i++) {
 			
-			if(SaveSystem.GetInt(reqs[i].name) > 0)
+			if(SaveSystem.stageToRank.ContainsKey(reqs[i].name) && SaveSystem.stageToRank[reqs[i].name] > 0)
 			
 			//if (FindObjectOfType<playerObj>().stageToRank.ContainsKey(reqs[i].name) && FindObjectOfType<playerObj>().stageToRank[reqs[i].name] > 0) 
 			{
